@@ -1,0 +1,3 @@
+[submodule "catkin_ws/src/iai_kinect2"]
+	path = catkin_ws/src/iai_kinect2
+	url = https://github.com/code-iai/iai_kinect2

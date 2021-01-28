@@ -1,0 +1,40 @@
+version: "2.3"
+services: 
+  master:
+    container_name: ros-master-kinectv2-ros
+    image: kinectv2-ros:dev
+    network_mode: "host"
+    command: roscore
+    environment:
+      - ROS_MASTER_URI=http://localhost:11311
+    tty: true
+
+  catkin-build:
+    container_name: catkin-build-kinectv2-ros
+    image: kinectv2-ros:dev
+    command: bash -c "cd /root/catkin_ws && catkin build --cmake-args -DCMAKE_BUILD_TYPE=Debug"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+    tty: true
+
+  kinect2-bridge:
+    container_name: kinect2-bridge-ros
+    image: kinectv2-ros:dev
+    runtime: nvidia
+    command: bash -c "roslaunch kinect2_bridge kinect2_bridge.launch"
+    network_mode: "host"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+    environment:
+      - DISPLAY=${DISPLAY}
+    tty: true
+    privileged: true
+
+  bash:
+    container_name: bash-kinectv2-ros
+    image: kinectv2-ros:dev
+    command: bash
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+    tty: true
+
