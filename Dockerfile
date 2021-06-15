@@ -1,5 +1,4 @@
- FROM nvidia/cudagl:10.2-devel-ubuntu18.04
-#FROM ros:melodic-ros-core
+FROM nvcr.io/nvidia/l4t-base:r32.2.1
 
 WORKDIR /root
 # avoid blocking in installation of tzdata
