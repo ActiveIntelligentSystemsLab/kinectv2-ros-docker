@@ -27,6 +27,8 @@ services:
       - ./catkin_ws:/root/catkin_ws
     environment:
       - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
     tty: true
     privileged: true
 
