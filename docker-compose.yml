@@ -6,7 +6,8 @@ services:
     network_mode: "host"
     command: roscore
     environment:
-      - ROS_MASTER_URI=http://localhost:11311
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
     tty: true
 
   catkin-build:
@@ -22,12 +23,14 @@ services:
     image: kinectv2-ros:dev
     runtime: nvidia
     command: bash -c "roslaunch kinect2_bridge kinect2_bridge.launch fps_limit:=2"
+      #command: bash 
     network_mode: "host"
     volumes:
       - ./catkin_ws:/root/catkin_ws
     environment:
       - DISPLAY=${DISPLAY}
       - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_HOSTNAME=localhost
       - ROS_IP=${ROS_IP}
     tty: true
     privileged: true
