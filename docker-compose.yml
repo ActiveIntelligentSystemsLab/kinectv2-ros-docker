@@ -1,5 +1,5 @@
 version: "2.3"
-services: 
+services:
   master:
     container_name: ros-master-kinectv2-ros
     image: kinectv2-ros:dev
@@ -21,7 +21,7 @@ services:
     container_name: kinect2-bridge-ros
     image: kinectv2-ros:dev
     runtime: nvidia
-    command: bash -c "roslaunch kinect2_bridge kinect2_bridge.launch"
+    command: bash -c "roslaunch kinect2_bridge kinect2_bridge.launch fps_limit:=2"
     network_mode: "host"
     volumes:
       - ./catkin_ws:/root/catkin_ws
@@ -32,6 +32,127 @@ services:
     tty: true
     privileged: true
 
+  kinect2-calibration-record-color:
+    container_name: kinect2-calibration-record-color
+    image: kinectv2-ros:dev
+    runtime: nvidia
+    command: bash -c "rosrun kinect2_calibration kinect2_calibration chess7x12x0.03 record color"
+    network_mode: "host"
+    working_dir: "/tmp/calib"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+      - ./calib:/tmp/calib
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
+    tty: true
+    privileged: true
+
+  kinect2-calibration-calibrate-color:
+    container_name: kinect2-calibration-calibrate-color
+    image: kinectv2-ros:dev
+    runtime: nvidia
+    command: bash -c "rosrun kinect2_calibration kinect2_calibration chess7x12x0.030 calibrate color"
+    network_mode: "host"
+    working_dir: "/tmp/calib"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+      - ./calib:/tmp/calib
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
+    tty: true
+    privileged: true
+
+  kinect2-calibration-record-ir:
+    container_name: kinect2-calibration-record-ir
+    image: kinectv2-ros:dev
+    runtime: nvidia
+    command: bash -c "rosrun kinect2_calibration kinect2_calibration chess7x12x0.030 record ir"
+    network_mode: "host"
+    working_dir: "/tmp/calib"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+      - ./calib:/tmp/calib
+    environment:
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
+    tty: true
+    privileged: true
+
+  kinect2-calibration-calibrate-ir:
+    container_name: kinect2-calibration-calibrate-ir
+    image: kinectv2-ros:dev
+    runtime: nvidia
+    command: bash -c "rosrun kinect2_calibration kinect2_calibration chess7x12x0.030 calibrate ir"
+    network_mode: "host"
+    working_dir: "/tmp/calib"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+      - ./calib:/tmp/calib
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
+    tty: true
+    privileged: true
+
+  kinect2-calibration-record-sync:
+    container_name: kinect2-calibration-record-sync
+    image: kinectv2-ros:dev
+    runtime: nvidia
+    command: bash -c "rosrun kinect2_calibration kinect2_calibration chess7x12x0.030 record sync"
+    network_mode: "host"
+    working_dir: "/tmp/calib"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+      - ./calib:/tmp/calib
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
+    tty: true
+    privileged: true
+
+  kinect2-calibration-calibrate-sync:
+    container_name: kinect2-calibration-calibrate-sync
+    image: kinectv2-ros:dev
+    runtime: nvidia
+    command: bash -c "rosrun kinect2_calibration kinect2_calibration chess7x12x0.030 calibrate sync"
+    network_mode: "host"
+    working_dir: "/tmp/calib"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+      - ./calib:/tmp/calib
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
+    tty: true
+    privileged: true
+
+  kinect2-calibration-calibrate-depth:
+    container_name: kinect2-calibration-calibrate-depth
+    image: kinectv2-ros:dev
+    runtime: nvidia
+    command: bash -c "rosrun kinect2_calibration kinect2_calibration chess7x12x0.030 calibrate depth"
+    network_mode: "host"
+    working_dir: "/tmp/calib"
+    volumes:
+      - ./catkin_ws:/root/catkin_ws
+      - ./calib:/tmp/calib
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=${ROS_MASTER_URI}
+      - ROS_IP=${ROS_IP}
+    tty: true
+    privileged: true
+
+
   bash:
     container_name: bash-kinectv2-ros
     image: kinectv2-ros:dev
@@ -39,4 +160,3 @@ services:
     volumes:
       - ./catkin_ws:/root/catkin_ws
     tty: true
-
